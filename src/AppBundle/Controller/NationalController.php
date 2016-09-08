@@ -3,57 +3,59 @@
  * Created by PhpStorm.
  * User: suliman
  * Date: 08/09/16
- * Time: 10:55 ص
+ * Time: 11:29 ص
  */
 
 namespace AppBundle\Controller;
+
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class GatepassController extends Controller
+class NationalController extends Controller
 {
 
     /**
-     * @Route("/gatepass", name="gatepass_list")
+     * @Route("/national", name="national_list")
      */
     public function listAction(Request $request)
     {
-        return $this->render('gatepass/index.html.twig');
+        return $this->render('national/index.html.twig');
     }
 
     /**
-     * @Route("/gatepass/create", name="gatepass_create")
+     * @Route("/national/create", name="national_create")
      */
     public function createAction(Request $request)
     {
-        return $this->render('gatepass/create.html.twig');
+        return $this->render('national/create.html.twig');
     }
 
     /**
-     * @Route("/gatepass/edit/{id}", name="gatepass_edit")
+     * @Route("/national/edit/{id}", name="national_edit")
      */
     public function editAction($id, Request $request)
     {
-        return $this->render('gatepass/edit.html.twig');
+        return $this->render('national/edit.html.twig');
     }
 
     /**
-     * @Route("/gatepass/delete/{id}", name="gatepass_delete")
+     * @Route("/national/delete/{id}", name="national_delete")
      */
     public function deleteAction($id, Request $request)
     {
-        return $this->render('gatepass/delete.html.twig');
+        return $this->render('national/delete.html.twig');
     }
 
 
     /**
-     * @Route("/gatepass/details/{id}", name="gatepass_details")
+     * @Route("/national/details/{id}", name="national_details")
      */
     public function detailsAction($id, Request $request)
     {
-        return $this->render('gatepass/details.html.twig');
+        return $this->render('national/details.html.twig');
     }
+
 
 }

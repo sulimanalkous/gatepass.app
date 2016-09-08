@@ -1,0 +1,17 @@
+body {
+    background:#f2f2f2 url('/img/kuwait_sl.png') center -30px repeat-x;
+    background-attachment: fixed;
+    direction: rtl;
+    padding-top: 70px;
+}
+
+.img-logo
+{
+    margin-left: 5px;
+    width:32px; height:35px;
+}
+
+.navbar-brand {
+    font-size: 20px;
+    line-height: 20px;
+}

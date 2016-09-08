@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container">
+    <div class="row">
+    <div class="col-md-10 col-md-offset-2">
+
+    <h3>التصاريح</h3>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 pull-left">
+        </div>
+        <div class="col-sm-6 pull-right">
+            <div class="dataTables_filter" id="example_filter">
+                <input aria-controls="example" placeholder="بحث" class="form-control input-sm" type="search">
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover table-users">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>من</th>
+        <th>إلى</th>
+        <th>نوع</th>
+        <th>السبب</th>
+        <th>ملاحظة</th>
+        <th colspan="3"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+<tr>
+    <td>#id</td>
+    <td><a href="#">#date_from</a></td>
+<td>#date_to</td>
+<td>#name</td>
+<td>#reason</td>
+<td>#note</td>
+<td><span class="label label-warning">Not Active</span></td>
+<td><a class="btn mini blue-stripe" href="#edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+<td>
+    <button class="btn mini btn-link"><i class="fa fa-trash" aria-hidden="true"></i></button>
+
+</td>
+</tr>
+
+</tbody>
+
+</table>
+    <div><a href="#create" aria-controls="example" tabindex="0" class="btn btn-lg btn-primary"><span>جديد</span></a></div>
+</div>
+</div>
+</div>
+{% endblock %}
