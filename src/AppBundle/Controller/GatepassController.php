@@ -16,7 +16,7 @@ class GatepassController extends Controller
 {
 
     /**
-     * @Route("/gatepass", name="gatepass_list")
+     * @Route("/", name="gatepass_list")
      */
     public function listAction(Request $request)
     {

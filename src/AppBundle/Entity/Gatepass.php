@@ -557,7 +557,7 @@ class Gatepass
     }
 
     /**
-     * Set national
+     * Set common
      *
      * @param \AppBundle\Entity\National $national
      *
@@ -571,7 +571,7 @@ class Gatepass
     }
 
     /**
-     * Get national
+     * Get common
      *
      * @return \AppBundle\Entity\National
      */
