@@ -213,5 +213,10 @@ class Items
         return $this->updatedAt;
     }
 
+    function __toString()
+    {
+        return $this->name;
+    }
+
 
 }

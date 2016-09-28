@@ -8,6 +8,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Gatepass;
+use AppBundle\Form\Type\GatepassType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +22,9 @@ class GatepassController extends Controller
      */
     public function listAction(Request $request)
     {
-        return $this->render('gatepass/index.html.twig');
+        $gatepass = $this->getDoctrine()->getRepository("AppBundle:Gatepass")->findAll();
+
+        return $this->render('gatepass/index.html.twig', compact('gatepass'));
     }
 
     /**
@@ -28,7 +32,32 @@ class GatepassController extends Controller
      */
     public function createAction(Request $request)
     {
-        return $this->render('gatepass/create.html.twig');
+        $gatepass = new Gatepass();
+
+        $form = $this->createForm(GatepassType::class, $gatepass);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+//            $user = $this->container->get('security.context')->getToken()->getUser();
+//            $user->getId();
+//            $gatepass->setUser($user);
+
+
+
+            $em = $this->getDoctrine()->getManager();
+
+            foreach ($gatepass->getItems() as $item) {
+                $item->setGatepass($gatepass);
+            }
+
+            $em->persist($gatepass);
+            $em->flush();
+        }
+
+        return $this->render('gatepass/create.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**

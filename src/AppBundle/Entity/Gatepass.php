@@ -166,7 +166,7 @@ class Gatepass
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Items", mappedBy="gatepass")
+     * @ORM\OneToMany(targetEntity="Items", mappedBy="gatepass", cascade={"persist", "remove"})
      * )
      */
     private $items;
@@ -638,6 +638,17 @@ class Gatepass
     public function setItems($items)
     {
         $this->items = $items;
+    }
+
+    public function addItems(Items $item)
+    {
+        $this->items->add($item);
+//        $item->setGatepass($this);
+    }
+
+    public function removeItems(Items $item) {
+
+            $this->items->removeElement($item);
     }
 
 

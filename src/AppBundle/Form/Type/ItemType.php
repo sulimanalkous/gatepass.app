@@ -9,6 +9,12 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ItemType extends AbstractType
 {
@@ -16,8 +22,8 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('srlno')
-            ->add('qty')
+            ->add('srlno', IntegerType::class)
+            ->add('qty', NumberType::class)
             ;
     }
 
@@ -26,6 +32,11 @@ class ItemType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Items',
         ));
+    }
+
+    public function getName()
+    {
+        return 'itemsType';
     }
 
 }
