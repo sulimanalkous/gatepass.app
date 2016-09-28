@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Company list</h1>
+
+    <table class="table-responsive table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Tel1</th>
+                <th>Tel2</th>
+                <th>Fax1</th>
+                <th>Fax2</th>
+                <th>Manager</th>
+                <th>Createdat</th>
+                <th>Updatedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for company in companies %}
+            <tr>
+                <td><a href="{{ path('company_show', { 'id': company.id }) }}">{{ company.id }}</a></td>
+                <td>{{ company.name }}</td>
+                <td>{{ company.tel1 }}</td>
+                <td>{{ company.tel2 }}</td>
+                <td>{{ company.fax1 }}</td>
+                <td>{{ company.fax2 }}</td>
+                <td>{{ company.manager }}</td>
+                <td>{% if company.createdAt %}{{ company.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if company.updatedAt %}{{ company.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('company_show', { 'id': company.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('company_edit', { 'id': company.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+            <a href="{{ path('company_new') }}" class="btn btn-default">Create a new entry</a>
+
+{% endblock %}

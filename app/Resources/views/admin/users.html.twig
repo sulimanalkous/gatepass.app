@@ -1,0 +1,73 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+
+                <h3>Users</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6 col-md-4 pull-left">
+                    </div>
+                    <div class="col-sm-6 pull-right">
+                        <div class="dataTables_filter" id="example_filter">
+                            <input aria-controls="example" placeholder="Search" class="form-control input-sm"
+                                   type="search">
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped table-hover table-users">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Roels</th>
+                        <th>Expires</th>
+                        <th>Locked</th>
+                        <th>Last Login</th>
+                        <th>Enable</th>
+                        <th colspan="3"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <ul>
+                                    {% for role in user.roles %}
+                                        <li>{{ role }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ user.isexpired }}</td>
+                            <td>{{ user.locked }}</td>
+                            <td>{{ user.lastLogin|date("d/m/Y") }}</td>
+                            <td><span class="label label-warning">{{ user.enabled }}</span></td>
+                            <td>
+                                <a href="/gatepass/delete/1" class="btn mini btn-link"><i class="fa fa-list-alt" aria-hidden="true"></i></a>
+                            </td>
+                            <td><a class="btn mini blue-stripe" href="#edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            </td>
+                            <td>
+                                <a href="/gatepass/delete/1" class="btn mini btn-link"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div><a href="/register" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-plus"></span> جديد</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

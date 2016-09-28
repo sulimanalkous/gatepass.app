@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Gatepass
@@ -165,24 +166,19 @@ class Gatepass
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Items", inversedBy="gatepass")
-     * @ORM\JoinTable(name="gatepass_item",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="gatepass_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="item_id", referencedColumnName="id")
-     *   }
+     * @ORM\OneToMany(targetEntity="Items", mappedBy="gatepass")
      * )
      */
-    private $item;
+    private $items;
+
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->item = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
 
@@ -629,36 +625,21 @@ class Gatepass
     }
 
     /**
-     * Add item
-     *
-     * @param \AppBundle\Entity\Items $item
-     *
-     * @return Gatepass
-     */
-    public function addItem(\AppBundle\Entity\Items $item)
-    {
-        $this->item[] = $item;
-
-        return $this;
-    }
-
-    /**
-     * Remove item
-     *
-     * @param \AppBundle\Entity\Items $item
-     */
-    public function removeItem(\AppBundle\Entity\Items $item)
-    {
-        $this->item->removeElement($item);
-    }
-
-    /**
-     * Get item
-     *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getItem()
+    public function getItems()
     {
-        return $this->item;
+        return $this->items;
     }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $items
+     */
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
+
+
+
 }

@@ -129,6 +129,25 @@ class CommonController extends Controller
         }
 
         $form = $this->createCommonForm($obj);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $obj = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($obj);
+            $em->flush();
+
+            $this->addFlash('notice', 'تم خفظ البيانات');
+
+            return $this->redirect("/common/{$table}");
+        }
+
+        return $this->render('common/edit.html.twig', [
+            'form' => $form->createView(),
+            'table' => $table,
+            'headerName' => $headerName
+        ]);
 
         return $this->render('common/edit.html.twig');
     }

@@ -36,6 +36,13 @@ class Items
     private $srlno;
 
     /**
+     * @var Decimal
+     *
+     * @ORM\Column(name="qty", type="decimal", precision=10, scale=2)
+     */
+    private $qty;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
@@ -50,18 +57,19 @@ class Items
     private $updatedAt;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Gatepass", mappedBy="item")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Gatepass", inversedBy="items")
+     * @ORM\JoinColumn(name="gatepass_id", referencedColumnName="id")
      */
     private $gatepass;
+
+
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->gatepass = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -124,6 +132,40 @@ class Items
     }
 
     /**
+     * @return Decimal
+     */
+    public function getQty()
+    {
+        return $this->qty;
+    }
+
+    /**
+     * @param Decimal $qty
+     */
+    public function setQty($qty)
+    {
+        $this->qty = $qty;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGatepass()
+    {
+        return $this->gatepass;
+    }
+
+    /**
+     * @param mixed $gatepass
+     */
+    public function setGatepass($gatepass)
+    {
+        $this->gatepass = $gatepass;
+    }
+
+
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -171,37 +213,5 @@ class Items
         return $this->updatedAt;
     }
 
-    /**
-     * Add gatepass
-     *
-     * @param \AppBundle\Entity\Gatepass $gatepass
-     *
-     * @return Items
-     */
-    public function addGatepass(\AppBundle\Entity\Gatepass $gatepass)
-    {
-        $this->gatepass[] = $gatepass;
 
-        return $this;
-    }
-
-    /**
-     * Remove gatepass
-     *
-     * @param \AppBundle\Entity\Gatepass $gatepass
-     */
-    public function removeGatepass(\AppBundle\Entity\Gatepass $gatepass)
-    {
-        $this->gatepass->removeElement($gatepass);
-    }
-
-    /**
-     * Get gatepass
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGatepass()
-    {
-        return $this->gatepass;
-    }
 }

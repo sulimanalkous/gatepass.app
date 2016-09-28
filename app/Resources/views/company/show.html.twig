@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Company</h1>
+
+    <table CLASS="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ company.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ company.name }}</td>
+            </tr>
+            <tr>
+                <th>Tel1</th>
+                <td>{{ company.tel1 }}</td>
+            </tr>
+            <tr>
+                <th>Tel2</th>
+                <td>{{ company.tel2 }}</td>
+            </tr>
+            <tr>
+                <th>Fax1</th>
+                <td>{{ company.fax1 }}</td>
+            </tr>
+            <tr>
+                <th>Fax2</th>
+                <td>{{ company.fax2 }}</td>
+            </tr>
+            <tr>
+                <th>Manager</th>
+                <td>{{ company.manager }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if company.createdAt %}{{ company.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if company.updatedAt %}{{ company.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('company_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('company_edit', { 'id': company.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
