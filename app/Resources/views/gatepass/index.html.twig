@@ -31,6 +31,7 @@
                         <th>القسم</th>
                         <th>السبب</th>
                         <th>ملاحظة</th>
+                        <th>إسم المسجل</th>
                         <th colspan="3"></th>
                     </tr>
                     </thead>
@@ -45,8 +46,9 @@
                             <td>{{ g.section.name }}</td>
                             <td>{{ g.reason }}</td>
                             <td>{{ g.remarks }}</td>
+                            <td>{{ g.user.name }}</td>
                             <td><span class="label label-warning">Not Active</span></td>
-                            <td><a class="btn mini blue-stripe" href="#edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            <td><a class="btn mini blue-stripe" href="/gatepass/edit/{{ g.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                             </td>
                             <td>
                                 <a href="/gatepass/delete/1" class="btn mini btn-link"><i class="fa fa-trash" aria-hidden="true"></i></a>

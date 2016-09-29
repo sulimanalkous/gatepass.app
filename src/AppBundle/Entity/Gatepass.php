@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Items;
 
 /**
  * Gatepass
@@ -166,10 +167,11 @@ class Gatepass
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Items", mappedBy="gatepass", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Items", mappedBy="gatepass",
+     *     cascade={"persist", "remove"}, orphanRemoval=true)
      * )
      */
-    private $items;
+    protected $items;
 
 
 
@@ -643,14 +645,12 @@ class Gatepass
     public function addItems(Items $item)
     {
         $this->items->add($item);
-//        $item->setGatepass($this);
+        $item->setGatepass($this);
     }
 
     public function removeItems(Items $item) {
-
-            $this->items->removeElement($item);
+        $this->items->removeElement($item);
+        $item->setGatepass(null);
     }
-
-
 
 }

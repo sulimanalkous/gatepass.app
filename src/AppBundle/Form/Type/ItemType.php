@@ -9,8 +9,9 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
@@ -22,8 +23,13 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('srlno', IntegerType::class)
-            ->add('qty', NumberType::class)
+            ->add('srlno', TextType::class , [
+                'data' => '0'
+            ])
+            ->add('qty', NumberType::class, [
+                'data' => 0
+            ])
+            ->add('delete', ButtonType::class, ['attr' => ['class' => 'delete_item']])
             ;
     }
 

@@ -1,15 +1,16 @@
 {% extends '::base.html.twig' %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
-{% block javascripts %}
-
-{% endblock %}
-
 {% block body %}
+    <style>
+        div#gatepass_items {
+            display: inline-flex;
+        }
+    </style>
     <script>
         var $collectionHolder;
 
-        var $addItemLink = $('<a href="#" class="add_item_link">Add Item</a>');
+        var $addItemLink = $('<a href="#" class="btn btn-primary add_item_link">Add Item</a>');
         var $newLinkLi = $('<div></div>').append($addItemLink);
 
         jQuery(document).ready(function() {
@@ -31,9 +32,18 @@
                 addItemForm($collectionHolder, $newLinkLi);
             });
 
-            $collectionHolder.find('li').each(function () {
+            $('#gatepass').on('click','button.delete_item', function(e)
+            {
+                e.preventDefault();
+                var $div = $(this).parent('div').parent('div').parent('div');
+                console.log($div);
+                $div.remove();
+                console.log('DELETE');
+            });
+
+            $collectionHolder.find('div.item').each(function () {
                 addItemFormDeleteLink($(this));
-            })
+            });
 
             function addItemForm($collectionHolder, $newLinkLi) {
                 // Get the data-prototype explained earlier
@@ -50,7 +60,7 @@
                 $collectionHolder.data('index', index + 1);
 
                 // Display the form in the page in an li, before the "Add a tag" link li
-                var $newFormLi = $('<li></li>').append(newForm);
+                var $newFormLi = $('<div class="item"></div>').append(newForm);
 
                 // add a delete Link to the new form
                 addItemFormDeleteLink($newFormLi);
@@ -59,16 +69,22 @@
             }
 
             function addItemFormDeleteLink($itemFormLi) {
-                var $removeFromA = $('<a href="#">delete this Item</a>');
-                $itemFormLi.append($removeFromA);
-
-                $removeFromA.on('click', function (e) {
-                    // revent the Link from creating a "#" on the URL
+//                var $removeFromA = $('<a href="#">delete this Item</a>');
+                $('button.delete_item').on('click', function(e)
+                {
                     e.preventDefault();
+                    console.log('DELETE');
+                });
+//                var $removeFromA = $('.delete_item');
+//                $itemFormLi.append($removeFromA);
 
-                    // remove the li from the item form
-                    $itemFormLi.remove();
-                })
+//                $removeFromA.on('click', function (e) {
+                // revent the Link from creating a "#" on the URL
+//                    e.preventDefault();
+
+                // remove the li from the item form
+//                    $itemFormLi.remove();
+//                })
             }
 
         });
@@ -79,9 +95,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-2">
 
-                <h2 class="page-header">Gatepass</h2>
-                <h3>جديد</h3>
-                <hr>
+                <h2 class="page-header">تصريح جديد</h2>
 
                 {{ form_start(form) }}
                 {{ form_widget(form) }}

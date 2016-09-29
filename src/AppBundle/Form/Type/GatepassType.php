@@ -64,6 +64,7 @@ class GatepassType extends AbstractType
 
             ->add('items', CollectionType::class, array(
                 'entry_type'       => ItemType::class,
+                'prototype'         => true,
                 'allow_add'         => true,
                 'allow_delete'      => true,
                 'by_reference'      => false,

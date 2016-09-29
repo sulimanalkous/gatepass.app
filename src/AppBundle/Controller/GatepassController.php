@@ -13,6 +13,8 @@ use AppBundle\Form\Type\GatepassType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 class GatepassController extends Controller
 {
@@ -39,15 +41,18 @@ class GatepassController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-//            $user = $this->container->get('security.context')->getToken()->getUser();
-//            $user->getId();
-//            $gatepass->setUser($user);
+            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $user->getId();
+            $gatepass->setUser($user);
 
+            $dateNow = new \DateTime('now');
 
+            $gatepass->setCreatedAt($dateNow);
 
             $em = $this->getDoctrine()->getManager();
 
             foreach ($gatepass->getItems() as $item) {
+                $item->setCreatedAt($dateNow);
                 $item->setGatepass($gatepass);
             }
 
@@ -65,7 +70,54 @@ class GatepassController extends Controller
      */
     public function editAction($id, Request $request)
     {
-        return $this->render('gatepass/edit.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $gatepass = $em->getRepository('AppBundle:Gatepass')->find($id);
+
+        if (!$gatepass) {
+            throw $this->createNotFoundException('No gatepass found for id ' . $id);
+        }
+
+        $originalItems = new ArrayCollection();
+
+        // create an ArrayCollection of the current Gatepass objects in the database
+        foreach ($gatepass->getItems() as $item) {
+            $originalItems->add($item);
+        }
+
+        $form = $this->createForm(GatepassType::class, $gatepass);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $user->getId();
+            $gatepass->setUser($user);
+
+            $dateNow = new \DateTime('now');
+
+            $gatepass->setUpdatedAt($dateNow);
+
+
+            // remove the relationship between the item and the gatepass
+            foreach ($originalItems as $item) {
+                if (false === $gatepass->getItems()->contains($item)) {
+                    // remove the gatepass from the Item
+                    $item->setGatepass(null);
+                    $em->remove($item);
+                }
+            }
+
+            foreach ($gatepass->getItems() as $item) {
+                    $item->setUpdatedAt($dateNow);
+                    $item->setGatepass($gatepass);
+            }
+
+            $em->persist($gatepass);
+            $em->flush();
+        }
+
+        return $this->render('gatepass/edit.html.twig', ['form' => $form->createView()]);
     }
 
     /**
