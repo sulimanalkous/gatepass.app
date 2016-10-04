@@ -30,8 +30,7 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "symfony/assetic-bundle": "^2.8",
-        "jonnyw/php-phantomjs": "4.*",
-        "padam87/rasterize-bundle": "~1.0"
+        "knplabs/knp-snappy-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -50,12 +49,10 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "post-install-cmd": [
-            "@symfony-scripts",
-            "PhantomInstaller\\Installer::installPhantomJS"
+            "@symfony-scripts"
         ],
         "post-update-cmd": [
-            "@symfony-scripts",
-            "PhantomInstaller\\Installer::installPhantomJS"
+            "@symfony-scripts"
         ]
     },
     "extra": {

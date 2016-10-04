@@ -5,6 +5,8 @@ var fs=require('fs'),
 page.settings.userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36';
 
 // page.settings.media = screen;
+// page.set('settings.localToRemoteUrlAccessEnable', true);
+// page.set('settings.loadImages', true);
 
 page.content=fs.read(args[1]);
 
@@ -21,6 +23,12 @@ page.paperSize = {
         })
     }
 };
+page.onError = function (msg, trace) {
+    console.log(msg);
+    trace.forEach(function(item) {
+        console.log('  ', item.file, ':', item.line);
+    })
+}
 
 window.setTimeout(function(){
     page.render(args[1]);
