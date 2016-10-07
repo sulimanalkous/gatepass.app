@@ -9,17 +9,33 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{% block title %}Welcome!{% endblock %}</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
+    {#<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">#}
+    <link rel="stylesheet" href="http://gatepass.local/css/bootstrap-3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://gatepass.local/css/font-awesome-4.6.1/css/font-awesome.min.css">
+    {#font from https://fontface.me/font/list#}
+    <link rel="stylesheet" type="text/css" href="//www.fontstatic.com/f=katibeh" />
+<style>
+    html {
+        zoom: 0.55; /*workaround for phantomJS2 rendering pages too large*/
+    }
+    body {
+        /*font from https://fontface.me/font/list*/
+        font-family: 'katibeh';
+        font-size: 15pt;
+    }
+    @media all {
+        .container {
+            width: auto;
+        }
+    }
+</style>
 </head>
 
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            {% block body %}{% endblock %}
-        </div>
-    </div>
+
+    {% block body %}{% endblock %}
+
     {% block javascripts %}{% endblock %}
-</div>
+
+</body>
 </html>

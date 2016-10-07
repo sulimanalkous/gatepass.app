@@ -47,14 +47,23 @@ class GatepassType extends AbstractType
             ->add('camera', CheckboxType::class, array(
                 'label'     => 'Camera',
                 'required'  => false,
+                'label_attr' => array(
+                    'class' => 'checkbox-inline'
+                )
             ))
             ->add('laptop', CheckboxType::class, array(
                 'label'     => 'Laptop',
                 'required'  => false,
+                'label_attr' => array(
+                    'class' => 'checkbox-inline'
+                )
             ))
             ->add('car', CheckboxType::class, array(
                 'label'     => 'Car',
                 'required'  => false,
+                'label_attr' => array(
+                    'class' => 'checkbox-inline'
+                )
             ))
             ->add('carNo')
             ->add('carType')

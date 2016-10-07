@@ -1,26 +1,165 @@
 {% extends '::baseprint.html.twig' %}
 
 {% block body %}
+    <style>
+        body {
+            direction: rtl;
+        }
+        .invoice-title h2, .invoice-title h3 {
+            display: inline-block;
+        }
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-2">
+        .table > tbody > tr > .no-line {
+            border-top: none;
+        }
 
+        .table > thead > tr > .no-line {
+            border-bottom: none;
+        }
 
-            <h2 class="page-header">DETAILS</h2>
+        .table > tbody > tr > .thick-line {
+            border-top: 2px solid;
+        }
+        .header-hight {
+            line-height: 15px;
+            font-size: 0.7em;
+        }
 
-            <dl class="dl-horizontal">
-                <dt>Description lists</dt>
-                <dd>A description list is perfect for defining terms.</dd>
-                <dt>Euismod</dt>
-                <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
-                <dd>Donec id elit non mi porta gravida at eget metus.</dd>
-                <dt>Malesuada porta</dt>
-                <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
-                <dt>Felis euismod semper eget lacinia</dt>
-                <dd>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                    sit amet risus.
-                </dd>
-            </dl>
+        .row.header-hight h2, .row.header-hight h3 {
+            margin: 5px;
+        }
+
+        .table-details th {
+            font-weight: bold;
+            max-width: 60px;
+        }
+
+        .table-details td {
+            min-width: 60px;
+        }
+    </style>
+
+    <div class="container" >
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row header-hight">
+                    <div class="col-md-6 col-sm-6 col-lg-6 text-left">
+                        <img src="http://www.mew.gov.kw/template/tml_main/En/images/mew_logo.png"style="float: left;margin: 10px;">
+                        {#<img src="{{ absolute_url(asset('img/mew_logo.png')) }}"style="float: left;margin: 10px;">#}
+                        <h3>Ministry of Electricity & Water</h3>
+                        <h3>Al zour South Power</h3>
+                        <h3>generation & water</h3>
+                        <h3> distillation station</h3>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 text-right">
+                        <img src="http://www.mew.gov.kw/template/tml_main/En/images/kw_logo.png" style="float: right;margin: 10px;">
+                        {#<img src="{{ absolute_url(asset('img/kw_logo.png')) }}" style="float: right;margin: 10px;">#}
+                        <h3>وزارة الكهرباء و الماء</h3>
+                        <h3>محطة الزور الجنوبيه</h3>
+                        <h3>لتوليد القوى الكهربائية</h3>
+                        <h3> وتقطير المياه</h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="invoice-title">
+                    <h2 class="pull-left">Security</h2><h3>الأمن</h3>
+                </div>
+                <hr>
+                <div class="row" style="margin-bottom: 5em;">
+                    <div class="col-md-3 col-md-offset-5 col-sm-4 col-sm-offset-4">
+                        <h2><u>تصريح {{ gatepass.gatepassType.name }} مواد</u></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <table class="table table-bordered table-details">
+                            <tbody>
+                            <tr>
+                                <th>رقم التصريح</th>
+                                <td>{{ gatepass.id }}</td>
+                                <th>التاريخ</th>
+                                <td colspan="3">{{ gatepass.fromDate|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr>
+                                <th>الجهة الطالبة</th>
+                                <td>{{ gatepass.company.name }}</td>
+                                <th>القسم</th>
+                                <td colspan="4">{{ gatepass.section.name }}</td>
+                            </tr>
+                                <th>إسم السائق</th>
+                                <td>{{ gatepass.person }}</td>
+                                <th>الجنسية</th>
+                                <td colspan="4">{{ gatepass.national.name }}</td>
+                            </tr>
+                                <th><i class="fa fa-camera-retro fa-lg" aria-hidden="true"></i></th>
+                                <td>{{ gatepass.camera ? '<i class="fa fa-check" aria-hidden="true"></i>': '' }}</td>
+                                <th><i class="fa fa-laptop fa-lg" aria-hidden="true"></i></th>
+                                <td>{{ gatepass.laptop ? '<i class="fa fa-check" aria-hidden="true"></i>': ''}}</td>
+                                <th><i class="fa fa-car fa-lg" aria-hidden="true"></i></th>
+                                <td>{{ gatepass.car ? '<i class="fa fa-check" aria-hidden="true"></i>': '' }}</td>
+                            </tr>
+                                <th>رقم السيارة</th>
+                                <td>{{ gatepass.carNo }}</td>
+                                <th>النوع</th>
+                                <td>{{ gatepass.carType}}</td>
+                                <th>اللون</th>
+                                <td>{{ gatepass.carColor }}</td>
+                            </tr>
+                            <tr>
+                                <th>سبب الدخول</th>
+                                <td colspan="6">{{ gatepass.reason }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br><br>
+                    <div class="col-md-12">
+                        <h4>
+                            <strong>يسمح بالدخول من: </strong>{{ gatepass.fromDate|date('d/m/Y')  }}
+                            <strong>إلى: </strong>{{ gatepass.toDate|date('d/m/Y')  }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>المواد</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <td><strong>المادة</strong></td>
+                                    <td class="text-center"><strong>رقم المادة</strong></td>
+                                    <td class="text-center"><strong>الكمية</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                {% for item in gatepass.items %}
+                                    <tr>
+                                        <td>{{ item.name }}</td>
+                                        <td class="text-center">{{ item.srlno }}</td>
+                                        <td class="text-center">{{ item.qty }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-md-12">
+                <p><strong>ملاحظة:</strong>**(لم يتم خروج المواد إلا بتصريح الدخول)</p>
+            </div>
         </div>
     </div>
 
