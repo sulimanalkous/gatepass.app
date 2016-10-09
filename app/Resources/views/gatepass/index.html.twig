@@ -2,6 +2,32 @@
 
 {% block body %}
 
+    <script>
+        $(document).ready(function () {
+
+            var $rows = $('#table tr');
+            $('#search').keyup(function() {
+                var value = $(this).val();
+
+                if (value != '' || value.length > 0 ) {
+                    var val = '^(?=.*\\b' + $.trim(value).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+                            reg = RegExp(val, 'i'),
+                            text;
+
+                    $rows.show().filter(function () {
+                        text = $(this).text().replace(/\s+/g, ' ');
+                        return !reg.test(text);
+                    }).hide();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        th.date {
+            min-width: 87px;
+        }
+    </style>
 
     <div class="container">
         <div class="row">
@@ -14,8 +40,7 @@
                     </div>
                     <div class="col-sm-6 pull-right">
                         <div class="dataTables_filter" id="example_filter">
-                            <input aria-controls="example" placeholder="بحث" class="form-control input-sm"
-                                   type="search">
+                            <input aria-controls="example" placeholder="بحث" class="form-control input-sm" id="search" type="search">
                         </div>
                     </div>
                 </div>
@@ -23,45 +48,42 @@
                 <table class="table table-striped table-hover table-users">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>من</th>
-                        <th>إلى</th>
-                        <th>نوع</th>
+                        <th></th>
+                        <th>رقم التصريح</th>
+                        <th class="date">من</th>
+                        <th class="date">إلى</th>
                         <th>الشركة</th>
                         <th>القسم</th>
                         <th>السبب</th>
                         <th>ملاحظة</th>
                         <th>إسم المسجل</th>
-                        <th colspan="3"></th>
+                        <th></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody  id="table">
                     {% for g in gatepass %}
                         <tr>
+                            <td><span class="label label-{{ g.gatepassType.name == 'دخول' ? 'success' : 'primary' }}">{{ g.gatepassType.name }}</span></td>
                             <td>{{ g.id }}</td>
-                            <td><a href="#">{{ g.fromDate|date('d-m-Y') }}</a></td>
+                            <td>{{ g.fromDate|date('d-m-Y') }}</td>
                             <td>{{ g.toDate|date('d-m-Y') }}</td>
-                            <td>{{ g.gatepassType.name }}</td>
                             <td>{{ g.company.name }}</td>
                             <td>{{ g.section.name }}</td>
                             <td>{{ g.reason }}</td>
                             <td>{{ g.remarks }}</td>
                             <td>{{ g.user.name }}</td>
-                            <td><span class="label label-warning">Not Active</span></td>
-                            <td><a class="btn mini blue-stripe" href="/gatepass/edit/{{ g.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            </td>
                             <td>
-                                <a href="/gatepass/delete/1" class="btn mini btn-link"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                            </td>
-                            <td>
-                                <a href="/gatepass/print/1" class="btn mini btn-link"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                <a class="btn mini blue-stripe" href="/gatepass/details/{{ g.id }}"><i class="fa fa-info" aria-hidden="true"></i></a>
+                                <a class="btn mini blue-stripe" href="/gatepass/edit/{{ g.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <a href="/gatepass/delete/{{ g.id }}" class="btn mini btn-link"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                <a href="/gatepass/print/{{ g.id }}" target="_blank" class="btn mini btn-link"><i class="fa fa-print" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     {% endfor %}
 
                     </tbody>
                 </table>
-                <div><a href="/gatepass/create" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-plus"></span> جديد</a>
+                <div><a href="/gatepass/create" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> جديد</a>
                 </div>
             </div>
         </div>

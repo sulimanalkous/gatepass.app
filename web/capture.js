@@ -28,9 +28,10 @@ page.paperSize = {
     orientation: 'portrait',
     margin: '1cm',
     footer: {
-        height: '1cm',
+        height: '2cm',
         contents: phantom.callback(function (pageNum, numPages) {
-            return '<div style="text-align: right; font-size: 12px;">' + pageNum + ' / ' + numPages + '</div>';
+            return '<div class="col-md-4"><h4>رئيس قسم الأمن و السلامه</h4></div>' +
+                '<div style="text-align: right; font-size: 12px;">' + pageNum + ' / ' + numPages + '</div>';
         })
     }
 };

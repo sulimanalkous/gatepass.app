@@ -1,13 +1,152 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+    <style>
+        body {
+            direction: rtl;
+        }
+
+        .invoice-title h2, .invoice-title h3 {
+            display: inline-block;
+        }
+
+        .table > tbody > tr > .no-line {
+            border-top: none;
+        }
+
+        .table > thead > tr > .no-line {
+            border-bottom: none;
+        }
+
+        .table > tbody > tr > .thick-line {
+            border-top: 2px solid;
+        }
+
+        .header-hight {
+            line-height: 15px;
+            font-size: 0.7em;
+        }
+
+        .row.header-hight h2, .row.header-hight h3 {
+            margin: 5px;
+        }
+
+        .table-details th {
+            font-weight: bold;
+            max-width: 60px;
+        }
+
+        .table-details td {
+            min-width: 60px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-10 col-md-offset-2">
 
 
-<div class="row">
-<div class="col-md-10 col-md-offset-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
 
-        <h2 class="page-header">DETAILS</h2>
-</div>
-</div>
+                        <div class="row" style="margin-bottom: 5em;">
+                            <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+                                <h2><u>تصريح {{ gatepass.gatepassType.name }} مواد</u></h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div>
+                                    <a class="btn mini blue-stripe" href="/gatepass/edit/{{ gatepass.id }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                </div>
+                                <table class="table table-bordered table-details">
+                                    <tbody>
+                                    <tr>
+                                        <th>رقم التصريح</th>
+                                        <td>{{ gatepass.id }}</td>
+                                        <th>التاريخ</th>
+                                        <td colspan="3">{{ gatepass.createdAt|date('Y/m/d') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>من</th>
+                                        <td >{{ gatepass.fromDate|date('Y/m/d') }}</td>
+                                        <th>إلى</th>
+                                        <td colspan="3">{{ gatepass.toDate|date('Y/m/d') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>الجهة الطالبة</th>
+                                        <td>{{ gatepass.company.name }}</td>
+                                        <th>القسم</th>
+                                        <td colspan="4">{{ gatepass.section.name }}</td>
+                                    </tr>
+                                    <th>إسم السائق</th>
+                                    <td>{{ gatepass.person }}</td>
+                                    <th>الجنسية</th>
+                                    <td colspan="4">{{ gatepass.national.name }}</td>
+                                    </tr>
+                                    <th><i class="fa fa-camera-retro fa-lg" aria-hidden="true"></i></th>
+                                    <td>{{ gatepass.camera ? '<i class="fa fa-check" aria-hidden="true"></i>': '' }}</td>
+                                    <th><i class="fa fa-laptop fa-lg" aria-hidden="true"></i></th>
+                                    <td>{{ gatepass.laptop ? '<i class="fa fa-check" aria-hidden="true"></i>': '' }}</td>
+                                    <th><i class="fa fa-car fa-lg" aria-hidden="true"></i></th>
+                                    <td>{{ gatepass.car ? '<i class="fa fa-check" aria-hidden="true"></i>': '' }}</td>
+                                    </tr>
+                                    <th>رقم السيارة</th>
+                                    <td>{{ gatepass.carNo }}</td>
+                                    <th>النوع</th>
+                                    <td>{{ gatepass.carType }}</td>
+                                    <th>اللون</th>
+                                    <td>{{ gatepass.carColor }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>سبب الدخول</th>
+                                        <td colspan="6">{{ gatepass.reason }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br><br>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>المواد</strong></h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <td><strong>المادة</strong></td>
+                                            <td class="text-center"><strong>رقم المادة</strong></td>
+                                            <td class="text-center"><strong>الكمية</strong></td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                        {% for item in gatepass.items %}
+                                            <tr>
+                                                <td>{{ item.name }}</td>
+                                                <td class="text-center">{{ item.srlno }}</td>
+                                                <td class="text-center">{{ item.qty }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
 
 {% endblock %}

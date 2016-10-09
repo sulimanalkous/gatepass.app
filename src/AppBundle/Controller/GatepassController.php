@@ -61,6 +61,7 @@ class GatepassController extends Controller
 
             $em->persist($gatepass);
             $em->flush();
+            return $this->redirectToRoute('gatepass_list');
         }
 
         return $this->render('gatepass/create.html.twig', array(
@@ -77,7 +78,7 @@ class GatepassController extends Controller
         $gatepass = $em->getRepository('AppBundle:Gatepass')->find($id);
 
         if (!$gatepass) {
-            throw $this->createNotFoundException('No gatepass found for id ' . $id);
+            throw $this->createNotFoundException('لا يجد تصريح بهذا الرقم ' . $id);
         }
 
         $originalItems = new ArrayCollection();
@@ -118,6 +119,8 @@ class GatepassController extends Controller
 
             $em->persist($gatepass);
             $em->flush();
+
+            return $this->redirectToRoute('gatepass_list');
         }
 
         return $this->render('gatepass/edit.html.twig', ['form' => $form->createView()]);
@@ -137,7 +140,15 @@ class GatepassController extends Controller
      */
     public function detailsAction($id, Request $request)
     {
-        return $this->render('gatepass/details.html.twig');
+
+        $em = $this->getDoctrine()->getManager();
+        $gatepass = $em->getRepository('AppBundle:Gatepass')->find($id);
+
+        if (!$gatepass) {
+            throw $this->createNotFoundException('No gatepass found for id ' . $id);
+        }
+
+        return $this->render('gatepass/details.html.twig', ['gatepass' => $gatepass]);
     }
 
     /**
@@ -210,7 +221,7 @@ class GatepassController extends Controller
     {
         $response = new Response(file_get_contents($this->pdf), 200, [
             'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Content-Disposition' => 'inline; filename="' . $filename . '"', // attachment = downloading
             'Content-Transfer-Encoding' => 'binary',
             'Content-Type' => 'application/pdf',
         ]);
