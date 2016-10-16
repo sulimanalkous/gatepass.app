@@ -22,14 +22,20 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class, ['label' => 'إسم المادة'])
             ->add('srlno', TextType::class , [
-                'data' => '0'
+                'data' => '0',
+                'label' => 'رقم المادة'
             ])
             ->add('qty', NumberType::class, [
-                'data' => 0
+                'data' => 0,
+                'label' => 'الكمية'
             ])
-            ->add('delete', ButtonType::class, ['attr' => ['class' => 'delete_item']])
+            ->add('delete', ButtonType::class, [
+                'attr' => ['class' => 'delete_item btn btn-danger'],
+                'label' => 'حذف'
+                ]
+            )
             ;
     }
 
@@ -37,6 +43,7 @@ class ItemType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Items',
+            'attr' => ['class' => 'item']
         ));
     }
 

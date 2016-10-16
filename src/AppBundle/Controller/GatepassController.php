@@ -10,8 +10,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Gatepass;
 use AppBundle\Form\Type\GatepassType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -61,6 +63,9 @@ class GatepassController extends Controller
 
             $em->persist($gatepass);
             $em->flush();
+
+            $this->addFlash('notice', 'تم إضافة التصريح بنجاح');
+
             return $this->redirectToRoute('gatepass_list');
         }
 
@@ -120,35 +125,66 @@ class GatepassController extends Controller
             $em->persist($gatepass);
             $em->flush();
 
+            $this->addFlash('notice', 'تم تعديل التصريح بنجاح');
+
             return $this->redirectToRoute('gatepass_list');
         }
 
-        return $this->render('gatepass/edit.html.twig', ['form' => $form->createView()]);
+        return $this->render('gatepass/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
      * @Route("/gatepass/delete/{id}", name="gatepass_delete")
+     * @Method("DELETE")
      */
-    public function deleteAction($id, Request $request)
+    public function deleteAction(Request $request, Gatepass $gatepass)
     {
-        return $this->render('gatepass/delete.html.twig');
+
+//        $gatepass = $em->getRepository('AppBundle:Gatepass')->find($id);
+//
+//        if (!$gatepass) {
+//            throw $this->createNotFoundException('لا يجد تصريح بهذا الرقم ' . $id);
+//        }
+
+        $form = $this->createDeleteForm($gatepass);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($gatepass);
+            $em->flush();
+
+            $this->addFlash('notice', 'تم مسح التصريح رقم #');
+
+        }
+
+        return $this->redirectToRoute('gatepass_list');
     }
 
 
     /**
      * @Route("/gatepass/details/{id}", name="gatepass_details")
+     * @Method("GET")
      */
-    public function detailsAction($id, Request $request)
+    public function detailsAction(Request $request, Gatepass $gatepass)
     {
+        if ($gatepass === null)
+            throw new Exception("لا يوجد تصريح بهذا الرقم");
 
         $em = $this->getDoctrine()->getManager();
-        $gatepass = $em->getRepository('AppBundle:Gatepass')->find($id);
+//        $gatepass = $em->getRepository('AppBundle:Gatepass')->find($id);
+        $deleteForm = $this->createDeleteForm($gatepass);
 
-        if (!$gatepass) {
-            throw $this->createNotFoundException('No gatepass found for id ' . $id);
-        }
+//        if (!$gatepass) {
+//            throw $this->createNotFoundException('No gatepass found for id ' . $id);
+//        }
 
-        return $this->render('gatepass/details.html.twig', ['gatepass' => $gatepass]);
+        return $this->render('gatepass/details.html.twig', [
+            'gatepass' => $gatepass,
+            'delete_form' => $deleteForm->createView()
+        ]);
     }
 
     /**
@@ -230,5 +266,17 @@ class GatepassController extends Controller
         $response->send();
     }
 
+
+    /**
+     * @param Gatepass $gatepass The Gatepass Entity
+     * @return \Symfony\Component\Form\Form the Form
+     */
+    private function createDeleteForm(Gatepass $gatepass)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('gatepass_delete', ['id' => $gatepass->getId()]))
+            ->setMethod('DELETE')
+            ->getForm();
+    }
 
 }

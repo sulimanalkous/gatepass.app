@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -27,49 +28,53 @@ class GatepassType extends AbstractType
         $builder
             ->add('GatepassType', EntityType::class, array(
                     'class' => 'AppBundle:GatepassType',
-                    'choice_label' => 'name'))
+                    'choice_label' => 'name',
+                'label' => 'نوع التصريح'))
 
             ->add('company', EntityType::class, array(
                     'class' => 'AppBundle:Company',
-                    'choice_label' => 'name'))
+                    'choice_label' => 'name',
+                'label' => 'الجهه الطالبة'))
 
             ->add('national', EntityType::class, array(
                     'class' => 'AppBundle:National',
-                    'choice_label' => 'name'))
+                    'choice_label' => 'name',
+                'label' => 'الجنسية'))
 
             ->add('section', EntityType::class, array(
                     'class' => 'AppBundle:Section',
-                    'choice_label' => 'name'))
+                    'choice_label' => 'name',
+                'label' => 'القسم'))
 
-            ->add('person')
-            ->add('fromDate', DateType::class)
-            ->add('toDate', DateType::class)
+            ->add('person', TextType::class, ['label' => 'إسم السائق'])
+            ->add('fromDate', DateType::class, ['label' => 'من'])
+            ->add('toDate', DateType::class, ['label' => 'إلى'])
             ->add('camera', CheckboxType::class, array(
-                'label'     => 'Camera',
+                'label'     => 'كاميره',
                 'required'  => false,
                 'label_attr' => array(
                     'class' => 'checkbox-inline'
                 )
             ))
             ->add('laptop', CheckboxType::class, array(
-                'label'     => 'Laptop',
+                'label'     => 'لابتوب',
                 'required'  => false,
                 'label_attr' => array(
-                    'class' => 'checkbox-inline'
+                    'class' => 'checkbox-inline',
                 )
             ))
             ->add('car', CheckboxType::class, array(
-                'label'     => 'Car',
+                'label'     => 'سيارة',
                 'required'  => false,
                 'label_attr' => array(
                     'class' => 'checkbox-inline'
                 )
             ))
-            ->add('carNo')
-            ->add('carType')
-            ->add('carColor')
-            ->add('reason', TextareaType::class)
-            ->add('remarks', TextareaType::class)
+            ->add('carNo', TextType::class, ['label' => 'رقم السيارة'])
+            ->add('carType', TextType::class, ['label' => 'نوع السيارة'])
+            ->add('carColor', TextType::class, ['label' => 'لون السيارة'])
+            ->add('reason', TextareaType::class, ['label' => 'السبب'])
+            ->add('remarks', TextareaType::class, ['label' => 'ملاحظة'])
 
             ->add('items', CollectionType::class, array(
                 'entry_type'       => ItemType::class,
@@ -77,6 +82,8 @@ class GatepassType extends AbstractType
                 'allow_add'         => true,
                 'allow_delete'      => true,
                 'by_reference'      => false,
+                'label'             => 'المواد',
+                'attr' => ['class' => '']
             ))
             ->add('save', SubmitType::class, ['label' => 'حفظ', 'attr' => ['class' => 'btn-primary']])
             ;

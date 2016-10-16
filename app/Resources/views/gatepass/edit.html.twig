@@ -1,103 +1,16 @@
 {% extends '::base.html.twig' %}
-{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block headline %}Choice Widgets{% endblock headline %}
 
 {% block body %}
-    <style>
-        div#gatepass_items {
-            display: inline-flex;
-        }
-    </style>
-    <script>
-        var $collectionHolder;
-
-        var $addItemLink = $('<a href="#" class="btn btn-primary add_item_link">Add Item</a>');
-        var $newLinkLi = $('<div></div>').append($addItemLink);
-
-        jQuery(document).ready(function() {
-            // Get the ul that holds the collection of tags
-            $collectionHolder = $('#gatepass_items');
-
-            // add the "add a tag" anchor and li to the tags ul
-            $collectionHolder.append($newLinkLi);
-
-            // count the current form inputs we have (e.g. 2), use that as the new
-            // index when inserting a new item (e.g. 2)
-            $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-            $addItemLink.on('click', function (e) {
-                // prevent the link from creating a "#" on the URL
-                e.preventDefault();
-
-                // add a new tag form (see next code block)
-                addItemForm($collectionHolder, $newLinkLi);
-            });
-
-            $('#gatepass').on('click','button.delete_item', function(e)
-            {
-                e.preventDefault();
-                var $div = $(this).parent('div').parent('div').parent('div');
-                $div.remove();
-            });
-
-            $collectionHolder.find('div.item').each(function () {
-                addItemFormDeleteLink($(this));
-            });
-
-            function addItemForm($collectionHolder, $newLinkLi) {
-                // Get the data-prototype explained earlier
-                var prototype = $collectionHolder.data('prototype');
-
-                // get the new index
-                var index = $collectionHolder.data('index');
-
-                // Replace '__name__' in the prototype's HTML to
-                // instead be a number based on how many items we have
-                var newForm = prototype.replace(/__name__/g, index);
-
-                // increase the index with one for the next item
-                $collectionHolder.data('index', index + 1);
-
-                // Display the form in the page in an li, before the "Add a tag" link li
-                var $newFormLi = $('<div class="item"></div>').append(newForm);
-
-                // add a delete Link to the new form
-                addItemFormDeleteLink($newFormLi);
-
-                $newLinkLi.before($newFormLi);
-            }
-
-            function addItemFormDeleteLink($itemFormLi) {
-//                var $removeFromA = $('<a href="#">delete this Item</a>');
-                $('button.delete_item').on('click', function(e)
-                {
-                    e.preventDefault();
-                    console.log('DELETE');
-                });
-//                var $removeFromA = $('.delete_item');
-//                $itemFormLi.append($removeFromA);
-
-//                $removeFromA.on('click', function (e) {
-                    // revent the Link from creating a "#" on the URL
-//                    e.preventDefault();
-
-                    // remove the li from the item form
-//                    $itemFormLi.remove();
-//                })
-            }
-
-        });
-
-    </script>
 
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-2">
 
                 <h2 class="page-header">تعديل تصريح</h2>
-
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                {{ form_end(form) }}
+                {% include 'gatepass/_form.html.twig' %}
             </div>
         </div>
     </div>
